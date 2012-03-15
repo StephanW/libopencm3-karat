@@ -4,18 +4,18 @@
  * Copyright (C) 2010 Piotr Esden-Tempski <piotr@esden.net>
  * Copyright (C) 2010 Thomas Otto <tommi@viadmin.org>
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef LIBOPENCM3_SCB_H
@@ -127,12 +127,13 @@
 #define SCB_AIRCR_ENDIANESS			(1 << 15)
 /* Bits [14:11]: reserved - must be kept cleared */
 /* PRIGROUP[10:8]: Interrupt priority grouping field */
-#define SCB_AIRCR_PRIGROUP_LSB			8
-#define SCB_AIRCR_PRIGROUP_GROUP16_NOSUB	0x3
-#define SCB_AIRCR_PRIGROUP_GROUP8_SUB2		0x4
-#define SCB_AIRCR_PRIGROUP_GROUP4_SUB4		0x5
-#define SCB_AIRCR_PRIGROUP_GROUP2_SUB8		0x6
-#define SCB_AIRCR_PRIGROUP_NOGROUP_SUB16	0x7
+#define SCB_AIRCR_PRIGROUP_GROUP16_NOSUB	(0x3 << 8)
+#define SCB_AIRCR_PRIGROUP_GROUP8_SUB2		(0x4 << 8)
+#define SCB_AIRCR_PRIGROUP_GROUP4_SUB4		(0x5 << 8)
+#define SCB_AIRCR_PRIGROUP_GROUP2_SUB8		(0x6 << 8)
+#define SCB_AIRCR_PRIGROUP_NOGROUP_SUB16	(0x7 << 8)
+#define SCB_AIRCR_PRIGROUP_MASK			(0x7 << 8)
+#define SCB_AIRCR_PRIGROUP_SHIFT		8
 /* Bits [7:3]: reserved - must be kept cleared */
 /* SYSRESETREQ System reset request */
 #define SCB_AIRCR_SYSRESETREQ			(1 << 2)
@@ -294,6 +295,7 @@
 /* --- SCB functions ------------------------------------------------------- */
 void scb_reset_core(void);
 void scb_reset_system(void);
+void scb_set_priority_grouping(u32 prigroup);
 
 /* TODO: */
 
