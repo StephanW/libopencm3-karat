@@ -41,6 +41,11 @@ void dma_enable_mem2mem_mode(u32 dma, u8 channel)
 	DMA_CCR(dma, channel) &= ~DMA_CCR_CIRC;
 }
 
+void dma_disable_mem2mem_mode(u32 dma, u8 channel)
+{
+	DMA_CCR(dma, channel) &= ~DMA_CCR_MEM2MEM;
+}
+
 void dma_set_priority(u32 dma, u8 channel, u32 prio)
 {
 	DMA_CCR(dma, channel) &= ~(DMA_CCR_PL_MASK);
@@ -73,6 +78,11 @@ void dma_enable_circular_mode(u32 dma, u8 channel)
 {
 	DMA_CCR(dma, channel) |= DMA_CCR_CIRC;
 	DMA_CCR(dma, channel) &= ~DMA_CCR_MEM2MEM;
+}
+
+void dma_disable_circular_mode(u32 dma, u8 channel)
+{
+	DMA_CCR(dma, channel) &= ~DMA_CCR_CIRC;
 }
 
 void dma_set_read_from_peripheral(u32 dma, u8 channel)

@@ -312,12 +312,14 @@
 
 void dma_channel_reset(u32 dma, u8 channel);
 void dma_enable_mem2mem_mode(u32 dma, u8 channel);
+void dma_disable_mem2mem_mode(u32 dma, u8 channel);
 void dma_set_priority(u32 dma, u8 channel, u32 prio);
 void dma_set_memory_size(u32 dma, u8 channel, u32 mem_size);
 void dma_set_peripheral_size(u32 dma, u8 channel, u32 peripheral_size);
 void dma_enable_memory_increment_mode(u32 dma, u8 channel);
 void dma_enable_peripheral_increment_mode(u32 dma, u8 channel);
 void dma_enable_circular_mode(u32 dma, u8 channel);
+void dma_disable_circular_mode(u32 dma, u8 channel);
 void dma_set_read_from_peripheral(u32 dma, u8 channel);
 void dma_set_read_from_memory(u32 dma, u8 channel);
 void dma_enable_transfer_error_interrupt(u32 dma, u8 channel);
