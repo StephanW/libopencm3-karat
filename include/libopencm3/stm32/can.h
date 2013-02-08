@@ -1,3 +1,17 @@
+/** @defgroup can_defines CAN defines
+
+@ingroup STM32F_defines
+
+@brief <b>libopencm3 Defined Constants and Types for STM32 CAN </b>
+
+@version 1.0.0
+
+@author @htmlonly &copy; @endhtmlonly 2010 Piotr Esden-Tempski <piotr@esden.net>
+
+@date 12 November 2012
+
+LGPL License Terms @ref lgpl_license
+*/
 /*
  * This file is part of the libopencm3 project.
  *
@@ -23,11 +37,19 @@
 #include <libopencm3/stm32/memorymap.h>
 #include <libopencm3/cm3/common.h>
 
+/**@{*/
+
 /* --- Convenience macros -------------------------------------------------- */
 
 /* CAN register base adresses (for convenience) */
+/*****************************************************************************/
+/** @defgroup can_reg_base CAN register base address
+@ingroup can_defines
+
+@{*/
 #define CAN1				BX_CAN1_BASE
 #define CAN2				BX_CAN2_BASE
+/**@}*/
 
 /* --- CAN registers ------------------------------------------------------- */
 
@@ -417,6 +439,7 @@
 #define CAN_BTR_SJW_3TQ			(0x2 << 24)
 #define CAN_BTR_SJW_4TQ			(0x3 << 24)
 #define CAN_BTR_SJW_MASK		(0x3 << 24)
+#define CAN_BTR_SJW_SHIFT		24
 
 /* 23 Reserved, forced by hardware to 0 */
 
@@ -430,6 +453,7 @@
 #define CAN_BTR_TS2_7TQ			(0x6 << 20)
 #define CAN_BTR_TS2_8TQ			(0x7 << 20)
 #define CAN_BTR_TS2_MASK		(0x7 << 20)
+#define CAN_BTR_TS2_SHIFT		20
 
 /* TS1[3:0]: Time segment 1 */
 #define CAN_BTR_TS1_1TQ			(0x0 << 16)
@@ -449,6 +473,7 @@
 #define CAN_BTR_TS1_15TQ		(0xE << 16)
 #define CAN_BTR_TS1_16TQ		(0xF << 16)
 #define CAN_BTR_TS1_MASK		(0xF << 16)
+#define CAN_BTR_TS1_SHIFT		16
 
 /* 15:10 Reserved, forced by hardware to 0 */
 
@@ -458,7 +483,7 @@
 /* --- CAN_TIxR values ------------------------------------------------------ */
 
 /* STID[10:0]: Standard identifier */
-#define CAN_TIxR_STID_MASK		(0x3FF << 21)
+#define CAN_TIxR_STID_MASK		(0x7FF << 21)
 #define CAN_TIxR_STID_SHIFT		21
 
 /* EXID[15:0]: Extended identifier */
@@ -615,9 +640,12 @@
 
 /* --- CAN functions -------------------------------------------------------- */
 
+BEGIN_DECLS
+
 void can_reset(u32 canport);
 int can_init(u32 canport, bool ttcm, bool abom, bool awum, bool nart,
-	     bool rflm, bool txfp, u32 sjw, u32 ts1, u32 ts2, u32 brp);
+	     bool rflm, bool txfp, u32 sjw, u32 ts1, u32 ts2, u32 brp,
+	     bool loopback, bool silent);
 
 void can_filter_init(u32 canport, u32 nr, bool scale_32bit, bool id_list_mode,
 		     u32 fr1, u32 fr2, u32 fifo, bool enable);
@@ -638,5 +666,7 @@ void can_receive(u32 canport, u8 fifo, bool release, u32 *id, bool *ext,
 		 bool *rtr, u32 *fmi, u8 *length, u8 *data);
 
 void can_fifo_release(u32 canport, u8 fifo);
+bool can_available_mailbox(u32 canport);
+END_DECLS
 
 #endif

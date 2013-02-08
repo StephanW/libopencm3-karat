@@ -22,7 +22,7 @@
 #include <errno.h>
 #include <libopencm3/stm32/spi.h>
 #include <libopencm3/stm32/usart.h>
-#include <libopencm3/stm32/nvic.h>
+#include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/f2/gpio.h>
 #include <libopencm3/stm32/f2/rcc.h>
 
@@ -91,7 +91,7 @@ int _write(int file, char *ptr, int len)
 int main(void)
 {
 	int counter = 0;
-	volatile u16 dummy;
+	volatile u16 dummy __attribute__((unused));
 
 	clock_setup();
 	gpio_setup();

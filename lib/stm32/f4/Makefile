@@ -24,37 +24,18 @@ PREFIX	?= arm-none-eabi
 CC		= $(PREFIX)-gcc
 AR		= $(PREFIX)-ar
 CFLAGS		= -Os -g -Wall -Wextra -I../../../include -fno-common \
-		  -mcpu=cortex-m3 -mthumb -Wstrict-prototypes \
+		  -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
+		  -Wstrict-prototypes \
 		  -ffunction-sections -fdata-sections -MD -DSTM32F4
 # ARFLAGS	= rcsv
 ARFLAGS		= rcs
-OBJS		= vector.o rcc.o gpio.o usart.o spi.o flash.o nvic.o \
-		  i2c.o systick.o exti.o scb.o pwr.o timer.o \
-		  usb.o usb_standard.o usb_control.o usb_f107.o \
+OBJS		= rcc.o gpio.o flash.o exti2.o pwr.o timer.o \
+		  usb.o usb_standard.o usb_control.o usb_fx07_common.o usb_f107.o \
+		  usb_f207.o adc.o dma.o \
+		  gpio_common_all.o gpio_common_f24.o dma_common_f24.o spi_common_all.o \
+		  dac_common_all.o usart_common_all.o iwdg_common_all.o i2c_common_all.o \
+		  crc_common_all.o
 
-VPATH += ../../usb:../
+VPATH += ../../usb:../:../../cm3:../common
 
-# Be silent per default, but 'make V=1' will show all compiler calls.
-ifneq ($(V),1)
-Q := @
-endif
-
-all: $(LIBNAME).a
-
-$(LIBNAME).a: $(OBJS)
-	@printf "  AR      $(subst $(shell pwd)/,,$(@))\n"
-	$(Q)$(AR) $(ARFLAGS) $@ $^
-
-%.o: %.c
-	@printf "  CC      $(subst $(shell pwd)/,,$(@))\n"
-	$(Q)$(CC) $(CFLAGS) -o $@ -c $<
-
-clean:
-	@printf "  CLEAN   lib/stm32/f4\n"
-	$(Q)rm -f *.o *.d
-	$(Q)rm -f $(LIBNAME).a
-
-.PHONY: clean
-
--include $(OBJS:.o=.d)
-
+include ../../Makefile.include
